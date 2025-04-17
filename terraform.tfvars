@@ -1,5 +1,6 @@
-# Region
-aws_region = "us-east-1"
+# Regions
+aws_regions = ["us-west-2", "us-east-1"]
+aws_region = "us-west-2"  # Primary region for IPAM creation
 
 # Root ou_id
 root_ou_id = "r-vbtt"
