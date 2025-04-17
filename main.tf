@@ -1,4 +1,12 @@
 terraform {
+
+  backend "remote" {
+     organization = "TFG-IPAM"
+       workspaces {
+       name = "tfg-test-ipam"
+     }
+    }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -16,12 +24,13 @@ terraform {
 }
 
 # Add the IPAM module
+
 module "ipam" {
   source = "./modules/ipam"
-  
+
   aws_regions         = var.aws_regions
   delegated_account_id = var.delegated_account_id
-  
+
   providers = {
     aws = aws.delegated_account-region2
   }

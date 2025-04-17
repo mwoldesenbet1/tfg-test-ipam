@@ -1,9 +1,8 @@
 variable "aws_regions" {
   type        = list(string)
   description = "List of AWS regions for IPAM operation"
-  default     = ["us-east-1", "us-west-2"]
+  default     = ["us-west-2", "us-east-1"]
 }
-
 variable "delegated_account_id" {
   description = "AWS Account ID for delegated account where IPAM is created"
   type        = string
