@@ -32,6 +32,6 @@ module "ipam" {
   delegated_account_id = var.delegated_account_id
   providers = {
     aws.region1 = aws.delegated_account
-    aws.region2 = aws.delegated_account-region2
+    #aws.region2 = aws.delegated_account-region2
   }
 }
