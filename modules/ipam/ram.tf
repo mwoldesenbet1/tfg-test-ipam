@@ -53,11 +53,11 @@ locals {
   }
 }
 
-# Share IPAM with the specified accounts
+# Share IPAM with the account
 resource "aws_ram_resource_share" "ipam_share" {
   provider                  = aws.region1
   name                      = "ipam-resource-share"
-  allow_external_principals = false
+  allow_external_principals = true
   
   tags = {
     Name        = "ipam-resource-share"
@@ -74,7 +74,7 @@ resource "aws_ram_resource_association" "ipam_pool_associations" {
   resource_share_arn = aws_ram_resource_share.ipam_share.arn
 }
 
-# Share with specified accounts
+# Share with the specified account
 resource "aws_ram_principal_association" "ipam_account_principal" {
   provider           = aws.region1
   principal          = var.share_with_account_id
