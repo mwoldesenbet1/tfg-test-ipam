@@ -33,3 +33,22 @@ module "ipam" {
     aws.delegated_account_us-east-1 = aws.delegated_account_us-east-1
   }
 }
+
+# Add the VPC module
+module "vpc" {
+  source = "./modules/vpc"
+  aws_regions = var.aws_regions
+  
+  # Map IPAM pool IDs to use for VPC CIDRs
+  ipam_pool_ids = {
+    "us-west-2-prod" = module.ipam.environment_pool_ids["us-west-2-prod"]
+    "us-east-1-nonprod" = module.ipam.environment_pool_ids["us-east-1-nonprod"]
+  }
+  
+  providers = {
+    aws.delegated_account_us-west-2 = aws.delegated_account_us-west-2
+    aws.delegated_account_us-east-1 = aws.delegated_account_us-east-1
+  }
+  
+  depends_on = [module.ipam]
+}

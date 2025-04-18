@@ -22,3 +22,24 @@ output "subnet_pool_ids" {
   description = "IDs of subnet pools"
   value       = module.ipam.subnet_pool_ids
 }
+
+# Add VPC outputs
+output "vpc_ids" {
+  description = "IDs of the created VPCs"
+  value       = module.vpc.vpc_ids
+}
+
+output "vpc_cidrs" {
+  description = "CIDR blocks of the created VPCs"
+  value       = module.vpc.vpc_cidrs
+}
+
+output "subnet_ids" {
+  description = "IDs of the created subnets"
+  value       = module.vpc.subnet_ids
+}
+
+output "subnet_cidrs" {
+  description = "CIDR blocks of the created subnets"
+  value       = module.vpc.subnet_cidrs
+}
