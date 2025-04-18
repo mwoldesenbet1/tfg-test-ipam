@@ -22,12 +22,16 @@ terraform {
   }
 }
 
+
+
 # Add the IPAM module
+
 module "ipam" {
   source = "./modules/ipam"
-  aws_regions         = var.aws_regions
+  aws_regions = var.aws_regions
   delegated_account_id = var.delegated_account_id
   providers = {
-    aws = aws.delegated_account  # This uses region1 which is us-west-2
+    aws.region1 = aws.delegated_account
+    aws.region2 = aws.delegated_account-region2
   }
 }

@@ -37,3 +37,20 @@ variable "environments" {
     }
   }
 }
+variable "create_in_region" {
+  description = "Only create resources in this region"
+  type        = string
+  default     = ""
+}
+
+variable "ipam_id" {
+  description = "Existing IPAM ID to use"
+  type        = string
+  default     = ""
+}
+
+variable "private_scope_id" {
+  description = "Existing private scope ID to use"
+  type        = string
+  default     = ""
+}

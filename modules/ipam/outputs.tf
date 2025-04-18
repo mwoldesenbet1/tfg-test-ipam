@@ -10,15 +10,22 @@ output "private_scope_id" {
 
 output "regional_pool_ids" {
   description = "IDs of regional pools"
-  value       = { for k, v in aws_vpc_ipam_pool.regional_pools : k => v.id }
+  value       = {
+    "${var.aws_regions[0]}" = aws_vpc_ipam_pool.regional_pool_region1.id
+    "${var.aws_regions[1]}" = aws_vpc_ipam_pool.regional_pool_region2.id
+  }
 }
 
 output "environment_pool_ids" {
   description = "IDs of environment pools"
-  value       = { for k, v in aws_vpc_ipam_pool.environment_pools : k => v.id }
+  value       = {
+    for k, v in local.environment_pools : k => v.id
+  }
 }
 
 output "subnet_pool_ids" {
   description = "IDs of subnet pools"
-  value       = { for k, v in aws_vpc_ipam_pool.subnet_pools : k => v.id }
+  value       = {
+    for k, v in local.subnet_pools : k => v.id
+  }
 }
