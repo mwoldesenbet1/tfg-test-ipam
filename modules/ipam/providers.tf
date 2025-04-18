@@ -4,8 +4,8 @@ terraform {
     aws = {
       source = "hashicorp/aws"
       configuration_aliases = [
-        aws.region1,
-        aws.region2
+        aws.delegated_account_us-west-2,
+        aws.delegated_account_us-east-1
       ]
     }
   }

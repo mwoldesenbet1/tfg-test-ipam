@@ -2,7 +2,7 @@
 # Create a single AWS IPAM - only in region1 (us-west-2)
 # --------------------------
 resource "aws_vpc_ipam" "main_ipam" {
-  provider    = aws.region1
+  provider    = aws.delegated_account_us-west-2
   description = "Global IPAM for managing CIDR blocks"
 
   dynamic "operating_regions" {
@@ -17,7 +17,7 @@ resource "aws_vpc_ipam" "main_ipam" {
 # Create Top-Level IPAM Scope - only in region1 (us-west-2)
 # --------------------------
 resource "aws_vpc_ipam_scope" "private_scope" {
-  provider    = aws.region1
+  provider    = aws.delegated_account_us-west-2
   ipam_id     = aws_vpc_ipam.main_ipam.id
   description = "Private IPAM Scope"
 }
@@ -27,7 +27,7 @@ resource "aws_vpc_ipam_scope" "private_scope" {
 # --------------------------
 # Region 1 pool (us-west-2)
 resource "aws_vpc_ipam_pool" "regional_pool_region1" {
-  provider       = aws.region1
+  provider       = aws.delegated_account_us-west-2
   ipam_scope_id  = aws_vpc_ipam_scope.private_scope.id
   locale         = var.aws_regions[0]
   address_family = "ipv4"
@@ -36,7 +36,7 @@ resource "aws_vpc_ipam_pool" "regional_pool_region1" {
 
 # Region 2 pool (us-east-1) - still managed from region1 but with locale of region2
 resource "aws_vpc_ipam_pool" "regional_pool_region2" {
-  provider       = aws.region1
+  provider       = aws.delegated_account_us-west-2
   ipam_scope_id  = aws_vpc_ipam_scope.private_scope.id
   locale         = var.aws_regions[1]
   address_family = "ipv4"
@@ -53,14 +53,14 @@ locals {
 
 # Region 1 pool CIDR
 resource "aws_vpc_ipam_pool_cidr" "regional_cidr_region1" {
-  provider     = aws.region1
+  provider     = aws.delegated_account_us-west-2
   ipam_pool_id = aws_vpc_ipam_pool.regional_pool_region1.id
   cidr         = var.region_cidrs[var.aws_regions[0]]
 }
 
 # Region 2 pool CIDR
 resource "aws_vpc_ipam_pool_cidr" "regional_cidr_region2" {
-  provider     = aws.region1
+  provider     = aws.delegated_account_us-west-2
   ipam_pool_id = aws_vpc_ipam_pool.regional_pool_region2.id
   cidr         = var.region_cidrs[var.aws_regions[1]]
 }
@@ -72,7 +72,7 @@ resource "aws_vpc_ipam_pool_cidr" "regional_cidr_region2" {
 resource "aws_vpc_ipam_pool" "environment_pools_region1" {
   for_each = var.environments
   
-  provider           = aws.region1
+  provider           = aws.delegated_account_us-west-2
   ipam_scope_id       = aws_vpc_ipam_scope.private_scope.id
   locale              = var.aws_regions[0]
   address_family      = "ipv4"
@@ -84,7 +84,7 @@ resource "aws_vpc_ipam_pool" "environment_pools_region1" {
 resource "aws_vpc_ipam_pool" "environment_pools_region2" {
   for_each = var.environments
   
-  provider           = aws.region1
+  provider           = aws.delegated_account_us-west-2
   ipam_scope_id       = aws_vpc_ipam_scope.private_scope.id
   locale              = var.aws_regions[1]
   address_family      = "ipv4"
@@ -108,7 +108,7 @@ locals {
 resource "aws_vpc_ipam_pool_cidr" "environment_cidrs_region1" {
   for_each = var.environments
   
-  provider     = aws.region1
+  provider     = aws.delegated_account_us-west-2
   ipam_pool_id = aws_vpc_ipam_pool.environment_pools_region1[each.key].id
   cidr         = replace(var.region_cidrs[var.aws_regions[0]], "0.0/16", each.value.cidr_suffix)
   depends_on   = [aws_vpc_ipam_pool_cidr.regional_cidr_region1]
@@ -118,7 +118,7 @@ resource "aws_vpc_ipam_pool_cidr" "environment_cidrs_region1" {
 resource "aws_vpc_ipam_pool_cidr" "environment_cidrs_region2" {
   for_each = var.environments
   
-  provider     = aws.region1
+  provider     = aws.delegated_account_us-west-2
   ipam_pool_id = aws_vpc_ipam_pool.environment_pools_region2[each.key].id
   cidr         = replace(var.region_cidrs[var.aws_regions[1]], "0.0/16", each.value.cidr_suffix)
   depends_on   = [aws_vpc_ipam_pool_cidr.regional_cidr_region2]
@@ -142,7 +142,7 @@ resource "aws_vpc_ipam_pool" "subnet_pools_region1" {
     ]) : pair.key => pair
   }
   
-  provider           = aws.region1
+  provider           = aws.delegated_account_us-west-2
   ipam_scope_id       = aws_vpc_ipam_scope.private_scope.id
   locale              = var.aws_regions[0]
   address_family      = "ipv4"
@@ -165,7 +165,7 @@ resource "aws_vpc_ipam_pool" "subnet_pools_region2" {
     ]) : pair.key => pair
   }
   
-  provider           = aws.region1
+  provider           = aws.delegated_account_us-west-2
   ipam_scope_id       = aws_vpc_ipam_scope.private_scope.id
   locale              = var.aws_regions[1]
   address_family      = "ipv4"
@@ -211,7 +211,7 @@ resource "aws_vpc_ipam_pool_cidr" "subnet_cidrs_region1" {
     ]) : pair.key => pair
   }
   
-  provider       = aws.region1
+  provider       = aws.delegated_account_us-west-2
   ipam_pool_id   = aws_vpc_ipam_pool.subnet_pools_region1[each.key].id
   netmask_length = 21
   depends_on     = [aws_vpc_ipam_pool_cidr.environment_cidrs_region1]
@@ -231,7 +231,7 @@ resource "aws_vpc_ipam_pool_cidr" "subnet_cidrs_region2" {
     ]) : pair.key => pair
   }
   
-  provider       = aws.region1
+  provider       = aws.delegated_account_us-west-2
   ipam_pool_id   = aws_vpc_ipam_pool.subnet_pools_region2[each.key].id
   netmask_length = 21
   depends_on     = [aws_vpc_ipam_pool_cidr.environment_cidrs_region2]
