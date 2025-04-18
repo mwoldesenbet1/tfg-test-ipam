@@ -75,8 +75,9 @@ resource "aws_ram_resource_association" "ipam_pool_associations" {
 }
 
 # Share with the specified account
+
 resource "aws_ram_principal_association" "ipam_account_principal" {
   provider           = aws.region1
-  principal          = var.share_with_account_id
+  principal          = var.share_with_account_id  # This should be "329178087009"
   resource_share_arn = aws_ram_resource_share.ipam_share.arn
 }
