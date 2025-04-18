@@ -54,3 +54,9 @@ variable "private_scope_id" {
   type        = string
   default     = ""
 }
+
+variable "share_with_account_id" {
+  description = "AWS Account ID to share IPAM resources with"
+  type        = string
+  default     = ""
+}

@@ -30,6 +30,7 @@ module "ipam" {
   source = "./modules/ipam"
   aws_regions = var.aws_regions
   delegated_account_id = var.delegated_account_id
+  share_with_account_id = var.tfg_test_account1_id
   providers = {
     aws.region1 = aws.delegated_account
     aws.region2 = aws.delegated_account-region2

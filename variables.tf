@@ -11,10 +11,10 @@ variable "root_ou_id" {}
 
 
 
-#variable "tfg_test_account1_id" {
-# description = "AWS Account ID for tfg-test-account1"
-# type        = string
-#}
+variable "tfg_test_account1_id" {
+ description = "AWS Account ID for tfg-test-account1"
+ type        = string
+}
 
 variable "delegated_account_id" {
   description = "AWS Account ID for delegated account where IPAM is created"
