@@ -5,7 +5,7 @@ terraform {
       source = "hashicorp/aws"
       configuration_aliases = [
         aws.region1,
-        #aws.region2
+        aws.region2
       ]
     }
   }
