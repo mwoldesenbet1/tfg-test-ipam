@@ -60,18 +60,3 @@ module "ous" {
  # account_email = var.account_email
 }
 
-# Add the Network Firewall module
-module "network_firewall" {
-  source = "./modules/networking/network_firewall"
-  aws_regions = var.aws_regions
-
-  vpc_ids = module.vpc.vpc_ids
-  firewall_subnet_ids = module.vpc.firewall_subnet_ids
-
-  providers = {
-    aws.delegated_account_us-west-2 = aws.delegated_account_us-west-2
-    aws.delegated_account_us-east-1 = aws.delegated_account_us-east-1
-  }
-
-  depends_on = [module.vpc]
-}
