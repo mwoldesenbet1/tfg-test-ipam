@@ -54,8 +54,8 @@ module "vpc" {
 }
 
 # Add the OUs module
-#module "ous" {
-# source        = "./modules/ous"
-# root_ou_id    = var.root_ou_id
-# account_email = var.account_email
-#}
+module "ous" {
+ source        = "./modules/ous"
+ root_ou_id    = var.root_ou_id
+ # account_email = var.account_email
+}
