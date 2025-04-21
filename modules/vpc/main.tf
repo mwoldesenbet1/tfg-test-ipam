@@ -33,8 +33,7 @@ resource "aws_subnet" "subnet_west" {
   
   vpc_id = aws_vpc.vpc_west.id
   
-  # For subnets, we need to specify the CIDR block directly
-  # We'll calculate a /24 CIDR from the VPC CIDR
+   # We'll calculate a /24 CIDR from the VPC CIDR
   cidr_block = cidrsubnet(aws_vpc.vpc_west.cidr_block, 3, count.index)
   
   availability_zone = "${var.aws_regions[0]}${count.index == 0 ? "a" : "b"}"
@@ -52,7 +51,7 @@ resource "aws_subnet" "subnet_east" {
   
   vpc_id = aws_vpc.vpc_east.id
   
-  # For subnets, we need to specify the CIDR block directly
+  
   # We'll calculate a /24 CIDR from the VPC CIDR
   cidr_block = cidrsubnet(aws_vpc.vpc_east.cidr_block, 3, count.index)
   

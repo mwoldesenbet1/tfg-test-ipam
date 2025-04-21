@@ -1,5 +1,5 @@
 # --------------------------
-# Create a single AWS IPAM - only in region1 (us-west-2)
+# Create a single AWS IPAM - (us-west-2)
 # --------------------------
 resource "aws_vpc_ipam" "main_ipam" {
   provider    = aws.delegated_account_us-west-2
@@ -14,7 +14,7 @@ resource "aws_vpc_ipam" "main_ipam" {
 }
 
 # --------------------------
-# Create Top-Level IPAM Scope - only in region1 (us-west-2)
+# Create Top-Level IPAM Scope - (us-west-2)
 # --------------------------
 resource "aws_vpc_ipam_scope" "private_scope" {
   provider    = aws.delegated_account_us-west-2
@@ -23,7 +23,7 @@ resource "aws_vpc_ipam_scope" "private_scope" {
 }
 
 # --------------------------
-# Create Top-Level IPAM Pools for each Region - all managed from region1
+# Create Top-Level IPAM Pools for each Region - all managed from us-west-2
 # --------------------------
 # Region 1 pool (us-west-2)
 resource "aws_vpc_ipam_pool" "regional_pool_region1" {
@@ -34,7 +34,7 @@ resource "aws_vpc_ipam_pool" "regional_pool_region1" {
   description    = "Top-Level ${var.aws_regions[0]} /16 Pool"
 }
 
-# Region 2 pool (us-east-1) - still managed from region1 but with locale of region2
+# Region 2 pool (us-east-1) - still managed from us-west-2 but with locale of region2
 resource "aws_vpc_ipam_pool" "regional_pool_region2" {
   provider       = aws.delegated_account_us-west-2
   ipam_scope_id  = aws_vpc_ipam_scope.private_scope.id
