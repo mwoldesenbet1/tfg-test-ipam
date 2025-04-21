@@ -36,7 +36,7 @@ module "ipam" {
 
 # Add the VPC module
 module "vpc" {
-  source = "./modules/vpc"
+  source = "./modules/networking/vpc" 
   aws_regions = var.aws_regions
   
   # Map IPAM pool IDs to use for VPC CIDRs
@@ -58,4 +58,20 @@ module "ous" {
  source        = "./modules/ous"
  root_ou_id    = var.root_ou_id
  # account_email = var.account_email
+}
+
+# Add the Network Firewall module
+module "network_firewall" {
+  source = "./modules/networking/network_firewall"
+  aws_regions = var.aws_regions
+
+  vpc_ids = module.vpc.vpc_ids
+  firewall_subnet_ids = module.vpc.firewall_subnet_ids
+
+  providers = {
+    aws.delegated_account_us-west-2 = aws.delegated_account_us-west-2
+    aws.delegated_account_us-east-1 = aws.delegated_account_us-east-1
+  }
+
+  depends_on = [module.vpc]
 }

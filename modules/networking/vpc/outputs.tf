@@ -29,3 +29,19 @@ output "subnet_cidrs" {
     "${var.aws_regions[1]}" = aws_subnet.subnet_east[*].cidr_block
   }
 }
+
+output "firewall_subnet_ids" {
+  description = "IDs of the created firewall subnets"
+  value = {
+    "${var.aws_regions[0]}" = aws_subnet.firewall_subnet_west[*].id
+    "${var.aws_regions[1]}" = aws_subnet.firewall_subnet_east[*].id
+  }
+}
+
+output "firewall_subnet_cidrs" {
+  description = "CIDR blocks of the created firewall subnets"
+  value = {
+    "${var.aws_regions[0]}" = aws_subnet.firewall_subnet_west[*].cidr_block
+    "${var.aws_regions[1]}" = aws_subnet.firewall_subnet_east[*].cidr_block
+  }
+}
