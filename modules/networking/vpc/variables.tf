@@ -26,3 +26,27 @@ variable "ipam_pool_ids" {
   description = "IDs of IPAM pools to use for each VPC"
   type        = map(string)
 }
+
+variable "create_nat_gateway" {
+  description = "Whether to create NAT Gateways"
+  type        = bool
+  default     = true
+}
+
+variable "create_internet_gateway" {
+  description = "Whether to create Internet Gateways"
+  type        = bool
+  default     = true
+}
+
+variable "public_subnet_indices" {
+  description = "Indices of the subnets that should be public (have route to IGW)"
+  type        = list(number)
+  default     = [0]  # By default, first subnet is public
+}
+
+variable "private_subnet_indices" {
+  description = "Indices of the subnets that should be private (have route to NAT)"
+  type        = list(number)
+  default     = [1]  # By default, second subnet is private
+}

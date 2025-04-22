@@ -30,3 +30,30 @@ output "subnet_cidrs" {
   }
 }
 
+output "internet_gateway_ids" {
+  description = "IDs of the created Internet Gateways"
+  value = {
+    "${var.aws_regions[0]}" = aws_internet_gateway.igw_west.id
+    "${var.aws_regions[1]}" = aws_internet_gateway.igw_east.id
+  }
+}
+
+output "nat_gateway_ids" {
+  description = "IDs of the created NAT Gateways"
+  value = {
+    "${var.aws_regions[0]}" = aws_nat_gateway.nat_gw_west.id
+    "${var.aws_regions[1]}" = aws_nat_gateway.nat_gw_east.id
+  }
+}
+
+output "route_table_ids" {
+  description = "IDs of the created Route Tables"
+  value = {
+    "${var.aws_regions[0]}-public"  = aws_route_table.public_rt_west.id
+    "${var.aws_regions[0]}-private" = aws_route_table.private_rt_west.id
+    "${var.aws_regions[1]}-public"  = aws_route_table.public_rt_east.id
+    "${var.aws_regions[1]}-private" = aws_route_table.private_rt_east.id
+  }
+}
+
+
