@@ -2,7 +2,7 @@
 resource "aws_ec2_transit_gateway" "tgw" {
   provider = aws.delegated_account_us-west-2
   
-  description                     = "Transit Gateway for multi-region connectivity"
+  description                     = "Transit Gateway us-west-2"
   amazon_side_asn                 = var.amazon_side_asn
   auto_accept_shared_attachments  = "enable"
   default_route_table_association = "enable"
