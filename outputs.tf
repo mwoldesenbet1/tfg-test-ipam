@@ -43,3 +43,17 @@ output "subnet_cidrs" {
   description = "CIDR blocks of the created subnets"
   value       = module.vpc.subnet_cidrs
 }
+
+# Add Transit Gateway outputs
+output "transit_gateway_id" {
+  description = "ID of the created Transit Gateway"
+  value       = module.tgw.transit_gateway_id
+}
+
+output "tgw_vpc_attachments" {
+  description = "IDs of the Transit Gateway VPC attachments"
+  value = {
+    "us-west-2" = module.tgw.vpc_west_attachment_id
+    "us-east-1" = module.tgw.vpc_east_attachment_id
+  }
+}
