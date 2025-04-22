@@ -54,6 +54,5 @@ output "tgw_vpc_attachments" {
   description = "IDs of the Transit Gateway VPC attachments"
   value = {
     "us-west-2" = module.tgw.vpc_west_attachment_id
-    "us-east-1" = module.tgw.vpc_east_attachment_id
-  }
+      }
 }
